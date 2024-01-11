@@ -1,11 +1,11 @@
 import path from 'path'
 import fse from 'fs-extra'
 
-import { DatabaseAdapter } from "../../Infra/Database/DatabaseAdapter";
-import { MediaRepository } from "../Repository/MediaRepository";
-import { Media } from "../Entities/Media";
+import { DatabaseAdapter } from "../Infra/Database/DatabaseAdapter";
+import { MediaRepository } from "../Application/Repository/MediaRepository";
+import { Media } from "../Application/Entities/Media";
 
-import { AlreadyExists, NotFound, UnexpectedError } from "../../Shared/Handlers/Errors";
+import { AlreadyExists, NotFound, UnexpectedError } from "../Shared/Handlers/Errors";
 
 export class MediaService{
   private id: string;

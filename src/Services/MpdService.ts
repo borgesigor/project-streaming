@@ -1,4 +1,4 @@
-import { DashMPD } from "../../Shared/Utils/MpdParser";
+import { DashMPD } from "../Shared/Utils/MpdParser";
 
 interface CreateArgs{
   mediaType: 'live' | 'ondemand' | 'dvr',
@@ -12,7 +12,7 @@ class Mpd{
     const [weight, height] = [ args.totalResolution.split('x')[0], args.totalResolution.split('x')[1] ]
 
     if(args.mediaType == 'ondemand'){
-
+      
     }
 
     const mpd = new DashMPD
