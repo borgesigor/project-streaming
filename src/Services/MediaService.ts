@@ -22,7 +22,7 @@ export class MediaService{
 
     try {
       
-      if(await this.find()){
+      if(await this.get()){
         throw new AlreadyExists()
       }
       
@@ -39,7 +39,7 @@ export class MediaService{
 
   }
 
-  async find(): Promise<Media | null>{
+  async get(): Promise<Media | null>{
 
     try{
 
@@ -85,7 +85,7 @@ export class MediaService{
     
     try{
 
-      if(!await this.find()){
+      if(!await this.get()){
         throw new NotFound()
       }
 
