@@ -1,4 +1,4 @@
-import IDatabase, { Create, Delete, FindMany, FindUnique, Update } from '../../Application/Context/IDatabaseContext'
+import IDatabase, { Create, Delete, FindMany, FindUnique, Update } from '../../Shared/Context/IDatabaseContext'
 import { Client } from 'pg'
 import { UnexpectedError } from '../../Shared/Handlers/Errors'
 

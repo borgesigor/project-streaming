@@ -1,5 +1,5 @@
 import { Media } from "../Entities/Media";
-import IDatabaseContext, { FindMany, FindUnique } from "../Context/IDatabaseContext";
+import IDatabaseContext, { FindMany, FindUnique } from "../../Shared/Context/IDatabaseContext";
 
 export class MediaRepository{
 
