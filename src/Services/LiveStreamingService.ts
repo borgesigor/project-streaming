@@ -21,7 +21,7 @@ export class LiveStreamingService{
   async publish() {
     try {
       await this.ffmpegPublish();
-      // await this.packagerPublish();
+      await this.packagerPublish();
     } catch (error) {
       throw new UnexpectedError(error);
     }
@@ -36,35 +36,14 @@ export class LiveStreamingService{
         .audioCodec('aac')
         .addOptions([
           '-preset ultrafast',
-          '-tune zerolatency'
+          '-tune zerolatency',
+          '-threads 1',
+          '-avoid_negative_ts disabled'
         ])
+        .outputFPS(30)
         .outputOptions('-f', 'mpegts')
-        .output(this.videoUdpIp)
-        .on('codecData', () => {
-          resolve('started');
-        })
-        .on('end', () => {
-          resolve('ended')
-          console.log('Conversão concluída!');
-        })
-        .on('error', (err) => {
-          reject(err);
-        })
-        .run();
-    });
-  }
-
-  private async ffmpegThumbnailPublish() {
-    return new Promise((resolve, reject) => {
-      Ffmpeg()
-        .input(this.rtmp)
-        .inputOptions('-re')
-        .addOptions([
-          '-vf',
-          '-fps=2'
-        ])
-        .outputOptions('-f', )
-        .output(this.thumbnailUdpIp)
+        .output(this.videoUdpIp+'?pkt_size=1316')
+        // .output(this.defaultPath+'/output.ts')
         .on('codecData', () => {
           resolve('started');
         })
@@ -87,6 +66,9 @@ export class LiveStreamingService{
         [
           `in=${this.videoUdpIp},stream=video,init_segment=video_init.mp4,segment_template=video_$Number$.m4s`,
           `in=${this.videoUdpIp},stream=audio,init_segment=audio_init.mp4,segment_template=audio_$Number$.m4s`,
+          // `in=output.ts,stream=video,init_segment=video_init.mp4,segment_template=video_$Number$.m4s`,
+          // `in=output.ts,stream=audio,init_segment=audio_init.mp4,segment_template=audio_$Number$.m4s`,
+          '--allow_approximate_segment_timeline',
           '--time_shift_buffer_depth',
           '60',
           '--utc_timings',
@@ -102,6 +84,7 @@ export class LiveStreamingService{
       );
 
       this.packagerProcess.stdout.on('data', (data: any) => {
+        console.log(data)
         resolve(true)
       });
       
